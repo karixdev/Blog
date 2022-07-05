@@ -48,7 +48,8 @@ class RegistrationFormType extends AbstractType
             'data_class' => User::class,
             'attr' => [
                 'class' => 'registration-form'
-            ]
+            ],
+            'csrf_protection' => true,
         ]);
     }
 }
