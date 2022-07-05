@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Login{% endblock %}
+
+{% block container %}
+    <div class="login-container">
+
+        {% if error %}
+            <div class="alert alert-danger" role="alert">
+                {{ error.messageKey|trans(error.messageData, 'security') }}
+            </div>
+        {% endif %}
+
+        <form action="" method="post" class="login-form">
+            <div class="mb-3">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="_username" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="_password" class="form-control">
+            </div>
+            <div class="mb-3">
+                <button class="btn btn-primary float-end" type="submit">Login</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

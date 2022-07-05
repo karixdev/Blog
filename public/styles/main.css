@@ -9,13 +9,13 @@
     margin-top: 4rem;
 }
 
-.registration-form {
+.registration-form, .login-container {
     width: 70%;
     margin: 0 auto;
 }
 
 @media (max-width: 768px) {
-    .registration-form {
+    .registration-form, .login-container {
         width: 100%;
     }
 }
