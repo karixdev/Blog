@@ -4,3 +4,18 @@
         margin-right: 3rem;
     }
 }
+
+.main-container {
+    margin-top: 4rem;
+}
+
+.registration-form {
+    width: 70%;
+    margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+    .registration-form {
+        width: 100%;
+    }
+}
