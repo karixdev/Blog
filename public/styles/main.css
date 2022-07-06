@@ -1,3 +1,4 @@
+/* Navbar */
 @media (min-width: 992px) {
     .navbar > .container-fluid {
         margin-left: 3rem;
@@ -5,11 +6,17 @@
     }
 }
 
+.nav-item {
+    padding: 10px 2px;
+}
+
+/* Container */
 .main-container {
     margin-top: 4rem;
 }
 
-.registration-form {
+/* Forms */
+.registration-form, .post-form {
     width: 70%;
     margin: 0 auto;
 }
@@ -20,7 +27,7 @@
 }
 
 @media (max-width: 768px) {
-    .registration-form, .login-container {
+    .registration-form, .login-container, .post-form {
         width: 100%;
     }
 }

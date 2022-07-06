@@ -4,4 +4,5 @@
 
 {% block container %}
     <h1>Welcome {{ app.user.username }} to admin dashboard</h1>
+    <a href="{{ path('new_post') }}">Add new post!</a>
 {% endblock %}
