@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Post;
 use App\Form\PostFormType;
 use App\Service\FileUploader;
+use DateTime;
 use Doctrine\Persistence\ManagerRegistry;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -29,12 +30,14 @@ class PostController extends AbstractController
                 $post
                     ->setBannerFilename($bannerFilename)
                     ->setAuthor($this->getUser())
+                    ->setCreatedAt(new DateTime())
+                    ->setUpdatedAt(new DateTime())
                 ;
 
                 $registry->getManager()->persist($post);
                 $registry->getManager()->flush();
 
-                $this->redirectToRoute('admin_dashboard');
+                return $this->redirectToRoute('admin_dashboard');
             }
         }
 

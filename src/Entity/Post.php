@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\PostRepository;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PostRepository::class)]
@@ -25,6 +26,12 @@ class Post
 
     #[ORM\Column(type: 'string', length: 255)]
     private string $bannerFilename;
+
+    #[ORM\Column(type: 'datetime')]
+    private DateTimeInterface $createdAt;
+
+    #[ORM\Column(type: 'datetime')]
+    private DateTimeInterface $updatedAt;
 
     public function getId(): ?int
     {
@@ -75,6 +82,30 @@ class Post
     public function setBannerFilename(string $bannerFilename): self
     {
         $this->bannerFilename = $bannerFilename;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(DateTimeInterface $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }
