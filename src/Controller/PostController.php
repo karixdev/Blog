@@ -17,6 +17,14 @@ use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 
 class PostController extends AbstractController
 {
+    #[Route('/post/{id}', name: 'show_post')]
+    public function show(Post $post): Response
+    {
+        return $this->render('post/show.html.twig', [
+            'post' => $post,
+        ]);
+    }
+
     #[Route('/admin/post/new', name: 'new_post')]
     #[IsGranted('ROLE_ADMIN')]
     public function new(Request $request, FileManager $fileManager, ManagerRegistry $registry): Response
@@ -59,10 +67,6 @@ class PostController extends AbstractController
         $fileManager->remove($post);
         $postRepository->remove($post, true);
 
-        if ($redirectTo = $request->request->get('redirect_to')) {
-            $this->redirect($redirectTo);
-        }
-
         return $this->redirectToRoute('admin_dashboard');
     }
 
@@ -87,11 +91,9 @@ class PostController extends AbstractController
 
             $registry->getManager()->flush();
 
-            if ($redirectTo = $request->request->get('redirect_to')) {
-                return $this->redirect($redirectTo);
-            }
-            
-            return $this->redirectToRoute('admin_dashboard');
+            return $this->redirectToRoute('show_post', [
+                'id' => $post->getId(),
+            ]);
         }
 
         return $this->render('post/edit.html.twig', [

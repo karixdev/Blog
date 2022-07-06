@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block container %}
+    <div class="post">
+        <img src="{{ asset('uploads/banners/' ~ post.bannerFilename) }}" alt="" class="post-banner">
+        <h1>{{ post.title }}</h1>
+        <p class="author">Author: {{ post.author.username }}</p>
+        <div class="timestamps">
+            <div class="created-at">
+                <small>Created at: {{ post.createdAt | date('d.m.Y') }}</small>
+            </div>
+            <div class="updated-at">
+                <small>Last updated: {{ post.updatedAt | date('d.m.Y') }}</small>
+            </div>
+        </div>
+        <p>{{ post.content }}</p>
+        {% if is_granted('ROLE_ADMIN') %}
+            <form action="{{ path('post_delete', {'id': post.id}) }}" method="post" class="float-start">
+                <input type="hidden" class="form-control" value="{{ csrf_token('post-delete') }}" name="token">
+                <button class="btn btn-danger" type="submit">Delete</button>
+            </form>
+            <a href="{{ path('post_edit', {'id': post.id}) }}" class="btn btn-warning float-start edit-btn">Edit</a>
+        {% endif %}
+    </div>
+{% endblock %}
