@@ -17,6 +17,11 @@
                         <a href="{{ path('app_login') }}" class="nav-link">Login</a>
                     </li>
                 {% endif %}
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    <li class="nav-item">
+                        <a href="{{ path('app_logout') }}" class="nav-link">Logout</a>
+                    </li>
+                {% endif %}
             </ul>
         </div>
     </div>

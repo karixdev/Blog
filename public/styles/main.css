@@ -9,8 +9,13 @@
     margin-top: 4rem;
 }
 
-.registration-form, .login-container {
+.registration-form {
     width: 70%;
+    margin: 0 auto;
+}
+
+.login-container {
+    width: 49%;
     margin: 0 auto;
 }
 
