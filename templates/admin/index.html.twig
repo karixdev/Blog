@@ -24,10 +24,11 @@
                     <td>{{ post.createdAt | date }}</td>
                     <td>{{ post.updatedAt | date }}</td>
                     <td>
-                        <form action="{{ path('post_delete', {'id': post.id}) }}" method="post">
+                        <form action="{{ path('post_delete', {'id': post.id}) }}" method="post" class="float-start">
                             <input type="hidden" class="form-control" value="{{ csrf_token('post-delete') }}" name="token">
                             <button class="btn btn-danger" type="submit">Delete</button>
                         </form>
+                        <a href="{{ path('post_edit', {'id': post.id}) }}" class="btn btn-warning float-start edit-btn">Edit</a>
                     </td>
                 </tr>
             {% endfor %}

@@ -2,10 +2,11 @@
 
 namespace App\Security\Voter;
 
+use App\Entity\Post;
+use App\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\Security;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 class PostVoter extends Voter
 {
@@ -30,15 +31,32 @@ class PostVoter extends Voter
     {
         $user = $token->getUser();
 
-        if (!$user instanceof UserInterface) {
+        if (!$user instanceof User) {
             return false;
         }
 
         return match ($attribute) {
-            self::DELETE => $this->security->isGranted('ROLE_ADMIN', $user),
-            self::EDIT => $this->security->isGranted('ROLE_ADMIN', $user),
+            self::DELETE => $this->canDelete($subject, $user),
+            self::EDIT => $this->canEdit($subject, $user),
+            self::VIEW => $this->canView($subject, $user),
+
             default => false,
         };
 
+    }
+
+    public function canEdit(Post $post, User $user): bool
+    {
+        return $this->security->isGranted('ROLE_ADMIN', $user);
+    }
+
+    public function canView(Post $post, User $user): bool
+    {
+        return true;
+    }
+
+    public function canDelete(Post $post, User $user): bool
+    {
+        return $this->security->isGranted('ROLE_ADMIN', $user);
     }
 }

@@ -65,4 +65,16 @@ class PostController extends AbstractController
 
         return $this->redirectToRoute('admin_dashboard');
     }
+
+    #[Route('/admin/post/edit/{id}', name: 'post_edit')]
+    #[IsGranted('POST_EDIT', subject: 'post')]
+    public function edit(Request $request, Post $post, FileManager $fileManager, ManagerRegistry $registry): Response
+    {
+        $postForm = $this->createForm(PostFormType::class, $post);
+
+        return $this->render('post/edit.html.twig', [
+            'postForm' => $postForm->createView(),
+            'post' => $post
+        ]);
+    }
 }
