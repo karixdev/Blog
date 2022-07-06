@@ -22,10 +22,12 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
     public const LOGIN_ROUTE = 'app_login';
 
     private UrlGeneratorInterface $urlGenerator;
+    private Security $security;
 
-    public function __construct(UrlGeneratorInterface $urlGenerator)
+    public function __construct(UrlGeneratorInterface $urlGenerator, Security $security)
     {
         $this->urlGenerator = $urlGenerator;
+        $this->security = $security;
     }
 
     public function authenticate(Request $request): Passport
@@ -49,7 +51,7 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
             return new RedirectResponse($targetPath);
         }
 
-        if (in_array('ROLE_ADMIN', $token->getUser()->getRoles(), true)) {
+        if ($this->security->isGranted('ROLE_ADMIN', $token->getUser())) {
             return new RedirectResponse($this->urlGenerator->generate('admin_dashboard'));
         }
 
