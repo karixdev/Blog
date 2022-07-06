@@ -17,6 +17,14 @@ class AuthController extends AbstractController
     #[Route('/register', name: 'app_register')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
+        if ($this->getUser()) {
+            if ($this->isGranted('ROLE_ADMIN', $this->getUser())) {
+                return $this->redirectToRoute('admin_dashboard');
+            }
+
+            return $this->redirectToRoute('app_index');
+        }
+
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
@@ -43,6 +51,14 @@ class AuthController extends AbstractController
     #[Route(path: '/login', name: 'app_login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
+        if ($this->getUser()) {
+            if ($this->isGranted('ROLE_ADMIN', $this->getUser())) {
+                return $this->redirectToRoute('admin_dashboard');
+            }
+
+            return $this->redirectToRoute('app_index');
+        }
+
         return $this->render('security/login.html.twig', [
             'last_username' => $authenticationUtils->getLastUsername(),
             'error' => $authenticationUtils->getLastAuthenticationError(),
