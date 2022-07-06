@@ -45,6 +45,12 @@ class FileManager
         }
     }
 
+    public function replace(UploadedFile $file, Post $post): string
+    {
+        $this->remove($post);
+        return $this->upload($file);
+    }
+
     public function getTargetDirectory(): string
     {
         return $this->targetDirectory;

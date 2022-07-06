@@ -20,7 +20,7 @@ class PostFormType extends AbstractType
             ->add('banner', FileType::class, [
                 'label' => 'Banner image',
                 'mapped' => false,
-                'required' => true,
+                'required' => $options['is_image_required'],
                 'constraints' => [
                     new File([
                         'maxSize' => '1024k',
@@ -45,6 +45,8 @@ class PostFormType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Post::class,
             'csrf_protection' => true,
+
+            'is_image_required' => true,
 
             'submit_btn_text' => 'add',
             'attr' => [

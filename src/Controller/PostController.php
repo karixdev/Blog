@@ -70,7 +70,29 @@ class PostController extends AbstractController
     #[IsGranted('POST_EDIT', subject: 'post')]
     public function edit(Request $request, Post $post, FileManager $fileManager, ManagerRegistry $registry): Response
     {
-        $postForm = $this->createForm(PostFormType::class, $post);
+        $postForm = $this->createForm(PostFormType::class, $post, [
+            'is_image_required' => false,
+            'submit_btn_text' => 'save',
+        ]);
+
+        $postForm->handleRequest($request);
+        if ($postForm->isSubmitted() && $postForm->isValid()) {
+            $post->setUpdatedAt(new DateTime());
+
+            if ($banner = $postForm->get('banner')->getData()) {
+                $post->setBannerFilename(
+                    $fileManager->replace($banner, $post)
+                );
+            }
+
+            $registry->getManager()->flush();
+
+            if ($redirectTo = $request->request->get('redirect_to')) {
+                return $this->redirect($redirectTo);
+            }
+            
+            return $this->redirectToRoute('admin_dashboard');
+        }
 
         return $this->render('post/edit.html.twig', [
             'postForm' => $postForm->createView(),
