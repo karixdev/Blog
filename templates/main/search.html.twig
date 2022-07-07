@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block container %}
+    <div class="searchbar-container">
+        <form action="" method="get">
+            <div class="input-group mb-3">
+                <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Search"
+                        aria-label="Search phrase"
+                        aria-describedby="search-btn"
+                        name="phrase"
+                        required
+                        {% if phrase %}
+                            value="{{ phrase }}"
+                        {% endif %}
+                >
+                <button class="btn btn-primary" id="search-btn" type="submit">Search</button>
+            </div>
+        </form>
+    </div>
+    {% if posts %}
+        {% if posts | length > 0 %}
+            <h1>Results:</h1>
+            <div class="row row-cols-1 row-cols-md-2 g-4">
+                {% for post in posts %}
+                    {% include('main/post_card.html.twig') %}
+                {% endfor %}
+            </div>
+        {% else %}
+            <h1>No results</h1>
+        {% endif %}
+    {% endif %}
+{% endblock %}
