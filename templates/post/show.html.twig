@@ -4,22 +4,58 @@
     <div class="post">
         <img src="{{ asset('uploads/banners/' ~ post.bannerFilename) }}" alt="" class="post-banner">
         <h1>{{ post.title }}</h1>
-        <p class="author">Author: {{ post.author.username }}</p>
+        <p class="author">Author: {{ post.author.username | capitalize }}</p>
         <div class="timestamps">
-            <div class="created-at">
-                <small>Created at: {{ post.createdAt | date('d.m.Y') }}</small>
-            </div>
             <div class="updated-at">
                 <small>Last updated: {{ post.updatedAt | date('d.m.Y') }}</small>
             </div>
         </div>
         <p>{{ post.content }}</p>
-        {% if is_granted('ROLE_ADMIN') %}
-            <form action="{{ path('post_delete', {'id': post.id}) }}" method="post" class="float-start">
-                <input type="hidden" class="form-control" value="{{ csrf_token('post-delete') }}" name="token">
-                <button class="btn btn-danger" type="submit">Delete</button>
-            </form>
-            <a href="{{ path('post_edit', {'id': post.id}) }}" class="btn btn-warning float-start edit-btn">Edit</a>
+        <div class="post-actions">
+            {% if is_granted('ROLE_ADMIN') %}
+                <form action="{{ path('post_delete', {'id': post.id}) }}" method="post">
+                    <input type="hidden" class="form-control" value="{{ csrf_token('post-delete') }}" name="token">
+                    <button class="btn btn-danger" type="submit">Delete</button>
+                </form>
+                <a href="{{ path('post_edit', {'id': post.id}) }}" class="btn btn-warning edit-btn">Edit</a>
+            {% endif %}
+        </div>
+        <hr/>
+    </div>
+    <div class="comments">
+        <h2>Comments</h2>
+        {% if is_granted('ROLE_USER') %}
+        <form action="{{ path('new_comment') }}" class="comment-form" method="post">
+            <input type="hidden" class="form-control" name="comment_token" value="{{ csrf_token('new-comment') }}">
+            <input type="hidden" class="form-control" name="post_id" value="{{ post.id }}">
+            <input type="hidden" class="form-control" name="redirect_to" value="{{ app.request.requesturi }}">
+            <div class="mb-3">
+                <label for="commentContent">Content</label>
+                <textarea name="content" id="commentContent" class="form-control" placeholder="Add a comment"></textarea>
+            </div>
+               <div class="class-mb3">
+                <button type="submit" class="btn btn-primary">Comment</button>
+            </div>
+        </form>
         {% endif %}
+        <div class="row comments-container">
+            {% if post.comments | length > 0 %}
+                {% for comment in post.comments %}
+                    <div class="col-sm-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ comment.author.username | capitalize }}</h5>
+                                <p class="card-text">{{ comment.content }}</p>
+                            </div>
+                            <div class="card-footer">
+                                Last updated: {{ comment.updatedAt | date }}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <h3>No comments yet</h3>
+            {% endif %}
+        </div>
     </div>
 {% endblock %}
