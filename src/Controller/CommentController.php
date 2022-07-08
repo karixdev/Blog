@@ -29,7 +29,7 @@ class CommentController extends AbstractController
                 'Comment is missing a post'
             );
         }
-        
+
         if (!$post = $postRepository->find($postId)) {
             throw $this->createNotFoundException(
                 'Post has not been found'
@@ -58,5 +58,21 @@ class CommentController extends AbstractController
         }
 
         return $this->redirectToRoute('app_index');
+    }
+
+    #[Route('/comment/delete/{id}', name: 'comment_delete', methods: ['POST'])]
+    #[IsGranted('COMMENT_DELETE', subject: 'comment')]
+    public function delete(Request $request, Comment $comment, CommentRepository $commentRepository): Response
+    {
+        if (!$this->isCsrfTokenValid('delete-comment', $request->request->get('token'))) {
+            throw new InvalidCsrfTokenException();
+        }
+
+        $postId = $comment->getPost()->getId();
+        $commentRepository->remove($comment, true);
+
+        return $this->redirectToRoute('show_post', [
+            'id' => $postId,
+        ]);
     }
 }

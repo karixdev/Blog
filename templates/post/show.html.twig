@@ -40,12 +40,18 @@
         {% endif %}
         <div class="row comments-container">
             {% if post.comments | length > 0 %}
-                {% for comment in post.comments %}
+                {% for comment in post.comments | reverse %}
                     <div class="col-sm-12">
-                        <div class="card">
+                        <div class="card single-comment">
                             <div class="card-body">
                                 <h5 class="card-title">{{ comment.author.username | capitalize }}</h5>
                                 <p class="card-text">{{ comment.content }}</p>
+                                {% if is_granted('COMMENT_DELETE', comment) %}
+                                    <form action="{{ path('comment_delete', {'id': comment.id}) }}" method="post">
+                                        <input type="hidden" class="form-control" name="token" value="{{ csrf_token('delete-comment') }}">
+                                        <button class="btn btn-danger" type="submit">Delete</button>
+                                    </form>
+                                {% endif %}
                             </div>
                             <div class="card-footer">
                                 Last updated: {{ comment.updatedAt | date }}
