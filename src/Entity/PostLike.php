@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\PostLikeRepository;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PostLikeRepository::class)]
@@ -11,30 +12,30 @@ class PostLike
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
+    private int $id;
 
     #[ORM\Column(type: 'datetime')]
-    private $likedAt;
+    private DateTimeInterface $likedAt;
 
     #[ORM\ManyToOne(targetEntity: Post::class, inversedBy: 'likes')]
     #[ORM\JoinColumn(nullable: false)]
-    private $post;
+    private Post $post;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'likes')]
     #[ORM\JoinColumn(nullable: false)]
-    private $user;
+    private User $user;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getLikedAt(): ?\DateTimeInterface
+    public function getLikedAt(): ?DateTimeInterface
     {
         return $this->likedAt;
     }
 
-    public function setLikedAt(\DateTimeInterface $likedAt): self
+    public function setLikedAt(DateTimeInterface $likedAt): self
     {
         $this->likedAt = $likedAt;
 

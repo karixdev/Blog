@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\CommentLikeRepository;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CommentLikeRepository::class)]
@@ -11,30 +12,30 @@ class CommentLike
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
+    private int $id;
 
     #[ORM\Column(type: 'datetime')]
-    private $likedAt;
+    private DateTimeInterface $likedAt;
 
     #[ORM\ManyToOne(targetEntity: Comment::class, inversedBy: 'likes')]
     #[ORM\JoinColumn(nullable: false)]
-    private $comment;
+    private Comment $comment;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'commentLikes')]
     #[ORM\JoinColumn(nullable: false)]
-    private $user;
+    private User $user;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getLikedAt(): ?\DateTimeInterface
+    public function getLikedAt(): ?DateTimeInterface
     {
         return $this->likedAt;
     }
 
-    public function setLikedAt(\DateTimeInterface $likedAt): self
+    public function setLikedAt(DateTimeInterface $likedAt): self
     {
         $this->likedAt = $likedAt;
 
