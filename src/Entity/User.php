@@ -38,10 +38,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'author', targetEntity: Comment::class)]
     private $comments;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: PostLike::class)]
+    private $postLikes;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: CommentLike::class)]
+    private $commentLikes;
+
     public function __construct()
     {
         $this->posts = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->postLikes = new ArrayCollection();
+        $this->commentLikes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -177,9 +185,60 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeComment(Comment $comment): self
     {
         if ($this->comments->removeElement($comment)) {
-            // set the owning side to null (unless already changed)
             if ($comment->getAuthor() === $this) {
                 $comment->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getPostLikes(): Collection
+    {
+        return $this->postLikes;
+    }
+
+    public function addPostLike(PostLike $like): self
+    {
+        if (!$this->postLikes->contains($like)) {
+            $this->postLikes[] = $like;
+            $like->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removePostLike(PostLike $like): self
+    {
+        if ($this->postLikes->removeElement($like)) {
+            if ($like->getUser() === $this) {
+                $like->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getCommentLikes(): Collection
+    {
+        return $this->commentLikes;
+    }
+
+    public function addCommentLike(CommentLike $commentLike): self
+    {
+        if (!$this->commentLikes->contains($commentLike)) {
+            $this->commentLikes[] = $commentLike;
+            $commentLike->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommentLike(CommentLike $commentLike): self
+    {
+        if ($this->commentLikes->removeElement($commentLike)) {
+            if ($commentLike->getUser() === $this) {
+                $commentLike->setUser(null);
             }
         }
 
