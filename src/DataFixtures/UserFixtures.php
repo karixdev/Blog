@@ -10,7 +10,9 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 class UserFixtures extends Fixture
 {
     public const ADMIN_USER_REFERENCE = 'admin-user';
-    private const NUMBER_OF_NORMAL_USERS = 5;
+    public const NORMAL_USER_REFERENCE_PREFIX = 'normal-user-';
+
+    public const NUMBER_OF_NORMAL_USERS = 5;
 
     private UserPasswordHasherInterface $userPasswordHasher;
 
@@ -62,6 +64,7 @@ class UserFixtures extends Fixture
             ;
 
             $manager->persist($user);
+            $this->addReference(self::NORMAL_USER_REFERENCE_PREFIX . $i, $user);
         }
     }
 }

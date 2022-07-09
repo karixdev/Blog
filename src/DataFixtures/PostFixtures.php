@@ -12,7 +12,9 @@ use Faker\Generator;
 
 class PostFixtures extends Fixture implements DependentFixtureInterface
 {
-    private const NUMBER_OF_POSTS = 10;
+    public const NUMBER_OF_POSTS = 10;
+    public const POST_REFERENCE_PREFIX = 'post-';
+
     private const BANNER_TEMPLATE_FILENAME = 'banner_template.jpg';
 
     private Generator $generator;
@@ -35,6 +37,7 @@ class PostFixtures extends Fixture implements DependentFixtureInterface
                 ->setUpdatedAt(new DateTime())
             ;
 
+            $this->addReference(self::POST_REFERENCE_PREFIX . $i, $post);
             $manager->persist($post);
         }
 
