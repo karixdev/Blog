@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Comment;
+use App\Form\CommentFormType;
 use App\Repository\CommentRepository;
 use App\Repository\PostRepository;
 use DateTime;
@@ -20,41 +21,22 @@ class CommentController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function new(Request $request, PostRepository $postRepository, CommentRepository $commentRepository): Response
     {
-        if (!$this->isCsrfTokenValid('new-comment', $request->request->get('comment_token'))) {
-            throw new InvalidCsrfTokenException();
-        }
-
-        if (!$postId = $request->request->get('post_id')) {
-            throw new UnexpectedValueException(
-                'Comment is missing a post'
-            );
-        }
-
-        if (!$post = $postRepository->find($postId)) {
-            throw $this->createNotFoundException(
-                'Post has not been found'
-            );
-        }
-
-        $content = $request->request->get('content');
-        if (!$content) {
-            throw new UnexpectedValueException(
-                'Comment is missing a content'
-            );
-        }
-
         $comment = new Comment();
-        $comment
-            ->setContent($content)
-            ->setAuthor($this->getUser())
-            ->setPost($post)
-            ->setCreatedAt(new DateTime())
-            ->setUpdatedAt(new DateTime())
-        ;
-        $commentRepository->add($comment, true);
+        $commentForm = $this->createForm(CommentFormType::class, $comment);
 
-        if ($redirectTo = $request->request->get('redirect_to')) {
-            return $this->redirect($redirectTo);
+        $commentForm->handleRequest($request);
+        if ($commentForm->isSubmitted() && $commentForm->isValid()) {
+            $comment
+                ->setPost(
+                    $postRepository->find($commentForm->get('post')->getData())
+                )
+                ->setAuthor($this->getUser())
+                ->setCreatedAt(new DateTime())
+                ->setUpdatedAt(new DateTime())
+            ;
+
+            $commentRepository->add($comment, true);
+            return $this->redirect($commentForm->get('redirectTo')->getData());
         }
 
         return $this->redirectToRoute('app_index');

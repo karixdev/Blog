@@ -25,18 +25,7 @@
     <div class="comments">
         <h2>Comments</h2>
         {% if is_granted('ROLE_USER') %}
-        <form action="{{ path('new_comment') }}" class="comment-form" method="post">
-            <input type="hidden" class="form-control" name="comment_token" value="{{ csrf_token('new-comment') }}">
-            <input type="hidden" class="form-control" name="post_id" value="{{ post.id }}">
-            <input type="hidden" class="form-control" name="redirect_to" value="{{ app.request.requesturi }}">
-            <div class="mb-3">
-                <label for="commentContent">Content</label>
-                <textarea name="content" id="commentContent" class="form-control" placeholder="Add a comment"></textarea>
-            </div>
-               <div class="class-mb3">
-                <button type="submit" class="btn btn-primary">Comment</button>
-            </div>
-        </form>
+            {{ form(commentForm) }}
         {% endif %}
         <div class="row comments-container">
             {% if post.comments | length > 0 %}

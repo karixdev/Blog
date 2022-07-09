@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Comment;
 use App\Entity\Post;
+use App\Form\CommentFormType;
 use App\Form\PostFormType;
 use App\Repository\PostRepository;
 use App\Service\FileManager;
@@ -13,15 +15,25 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 
 class PostController extends AbstractController
 {
-    #[Route('/post/{id}', name: 'show_post')]
-    public function show(Post $post): Response
+    #[Route('/post/{id}', name: 'show_post', methods: ['GET'])]
+    public function show(Post $post, UrlGeneratorInterface $generator): Response
     {
+        $commentForm = $this->createForm(CommentFormType::class, new Comment(), [
+            'action' => $generator->generate('new_comment'),
+            'redirectTo' => $generator->generate('show_post', [
+                'id' => $post->getId(),
+            ]),
+            'postId' => $post->getId(),
+        ]);
+
         return $this->render('post/show.html.twig', [
             'post' => $post,
+            'commentForm' => $commentForm->createView(),
         ]);
     }
 
