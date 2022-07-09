@@ -34,15 +34,6 @@ class CommentFormType extends AbstractType
                     new DoesPostExist(),
                 ],
             ])
-            ->add('redirectTo', HiddenType::class, [
-                'mapped' => false,
-                'required' => true,
-                'data' => $options['redirectTo'],
-
-                'constraints' => [
-                    new NotNull(),
-                ],
-            ])
             ->add('comment', SubmitType::class)
         ;
     }
@@ -56,7 +47,6 @@ class CommentFormType extends AbstractType
                 'class' => 'comment-form',
             ],
 
-            'redirectTo' => null,
             'postId' => null,
         ]);
     }

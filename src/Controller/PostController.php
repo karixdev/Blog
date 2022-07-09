@@ -25,9 +25,6 @@ class PostController extends AbstractController
     {
         $commentForm = $this->createForm(CommentFormType::class, new Comment(), [
             'action' => $generator->generate('new_comment'),
-            'redirectTo' => $generator->generate('show_post', [
-                'id' => $post->getId(),
-            ]),
             'postId' => $post->getId(),
         ]);
 
