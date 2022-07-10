@@ -2,8 +2,11 @@
 
 namespace App\Repository;
 
+use App\Entity\Post;
 use App\Entity\PostLike;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -37,6 +40,21 @@ class PostLikeRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    /**
+     * @throws NonUniqueResultException
+     */
+    public function findByPostAndUser(Post $post, User $user): ?PostLike
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.user = :user')
+            ->andWhere('p.post = :post')
+            ->setParameter('user', $user)
+            ->setParameter('post', $post)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
     }
 
 //    /**
