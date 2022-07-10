@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Comment;
 use App\Entity\Post;
 use App\Entity\PostLike;
+use App\Repository\CommentRepository;
 use App\Repository\PostLikeRepository;
 use DateTime;
 use Doctrine\ORM\NonUniqueResultException;
@@ -21,6 +23,8 @@ class LikeController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function likePost(Request $request, Post $post, PostLikeRepository $postLikeRepository): Response
     {
+        return new Response();
+
         if (!$csrfToken = $request->request->get('like_post_token')) {
             throw new UnexpectedValueException();
         }
