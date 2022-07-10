@@ -33,14 +33,6 @@ class Comment
     #[ORM\JoinColumn(nullable: false)]
     private Post $post;
 
-    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'commentsLikes')]
-    private $likes;
-
-    public function __construct()
-    {
-        $this->likes = new ArrayCollection();
-    }
-
     public function getId(): ?int
     {
         return $this->id;
@@ -102,30 +94,6 @@ class Comment
     public function setPost(?Post $post): self
     {
         $this->post = $post;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, User>
-     */
-    public function getLikes(): Collection
-    {
-        return $this->likes;
-    }
-
-    public function addLike(User $like): self
-    {
-        if (!$this->likes->contains($like)) {
-            $this->likes[] = $like;
-        }
-
-        return $this;
-    }
-
-    public function removeLike(User $like): self
-    {
-        $this->likes->removeElement($like);
 
         return $this;
     }
