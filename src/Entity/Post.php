@@ -35,7 +35,7 @@ class Post
     #[ORM\Column(type: 'datetime')]
     private DateTimeInterface $updatedAt;
 
-    #[ORM\OneToMany(mappedBy: 'post', targetEntity: Comment::class)]
+    #[ORM\OneToMany(mappedBy: 'post', targetEntity: Comment::class, cascade: ['remove'])]
     private Collection $comments;
 
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'postsLikes')]
