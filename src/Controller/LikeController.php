@@ -2,51 +2,36 @@
 
 namespace App\Controller;
 
-use App\Entity\Comment;
 use App\Entity\Post;
-use App\Entity\PostLike;
-use App\Repository\CommentRepository;
-use App\Repository\PostLikeRepository;
-use DateTime;
-use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ManagerRegistry;
+use InvalidArgumentException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
-use UnexpectedValueException;
 
 class LikeController extends AbstractController
 {
     #[Route('/like/post/{id}', name: 'like_post', methods: ['POST'])]
     #[IsGranted('ROLE_USER')]
-    public function likePost(Request $request, Post $post, PostLikeRepository $postLikeRepository): Response
+    public function likePost(Request $request, Post $post, EntityManagerInterface $entityManager): Response
     {
-        return new Response();
-
         if (!$csrfToken = $request->request->get('like_post_token')) {
-            throw new UnexpectedValueException();
+            throw new InvalidArgumentException();
         }
-        if (!$this->isCsrfTokenValid('post-like-token', $csrfToken)) {
+        if (!$this->isCsrfTokenValid('post-like', $csrfToken)) {
             throw new InvalidCsrfTokenException();
         }
 
-        try {
-            if ($postLike = $postLikeRepository->findByPostAndUser($post, $this->getUser())) {
-                $postLikeRepository->remove($postLike, true);
-            } else {
-                $newPostLike = new PostLike();
-                $newPostLike
-                    ->setUser($this->getUser())
-                    ->setPost($post)
-                    ->setLikedAt(new DateTime())
-                ;
-                $postLikeRepository->add($newPostLike, true);
-            }
-        } catch (NonUniqueResultException $nonUniqueResultException) {
-            // TODO: handle this exception
+        if ($post->getLikes()->contains($this->getUser())) {
+            $post->removeLike($this->getUser());
+        } else {
+            $post->addLike($this->getUser());
         }
+        $entityManager->flush();
 
         return $this->redirectToRoute('show_post', [
             'id' => $post->getId(),

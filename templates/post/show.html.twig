@@ -10,19 +10,22 @@
                 <small>Last updated: {{ post.updatedAt | date('d.m.Y') }}</small>
             </div>
         </div>
-{#        {% if app.user %}#}
-{#            <div class="likes">#}
-{#                <form action="{{ path('like_post', {'id': post.id}) }}" method="post">#}
-{#                    <input type="hidden" name="like_post_token" value="{{ csrf_token('post-like-token') }}">#}
-{#                    {% if hasLiked %}#}
-{#                        <button type="submit" class="btn btn-primary">Liked</button>#}
-{#                    {% else %}#}
-{#                        <button type="submit" class="btn btn-light">Like</button>#}
-{#                    {% endif %}#}
-{#                </form>#}
-{#            </div>#}
-{#        {% endif %}#}
-        <p>{{ post.content }}</p>
+        <div class="likes">
+            {% if app.user %}
+                <form action="{{ path('like_post', {'id': post.id}) }}" method="post">
+                    <input type="hidden" name="like_post_token" value="{{ csrf_token('post-like') }}">
+                    {% if post.likes.contains(app.user) %}
+                        <button type="submit" class="btn btn-primary btn-sm">Liked</button>
+                    {% else %}
+                        <button type="submit" class="btn btn-outline-primary btn-sm">Like</button>
+                    {% endif %}
+                </form>
+            {% endif %}
+            <p>Likes: {{ post.likes | length }}</p>
+        </div>
+        <div class="post-content">
+            <p>{{ post.content }}</p>
+        </div>
         <div class="post-actions">
             {% if is_granted('ROLE_ADMIN') %}
                 <form action="{{ path('post_delete', {'id': post.id}) }}" method="post">
