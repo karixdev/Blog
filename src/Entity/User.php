@@ -36,20 +36,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $posts;
 
     #[ORM\OneToMany(mappedBy: 'author', targetEntity: Comment::class)]
-    private $comments;
+    private Collection $comments;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: PostLike::class)]
-    private $postLikes;
+    #[ORM\ManyToMany(targetEntity: Comment::class, mappedBy: 'likes')]
+    private Collection $commentsLikes;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: CommentLike::class)]
-    private $commentLikes;
+    #[ORM\ManyToMany(targetEntity: Post::class, mappedBy: 'likes')]
+    private $postsLikes;
 
     public function __construct()
     {
         $this->posts = new ArrayCollection();
         $this->comments = new ArrayCollection();
-        $this->postLikes = new ArrayCollection();
-        $this->commentLikes = new ArrayCollection();
+        $this->commentsLikes = new ArrayCollection();
+        $this->postsLikes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -193,53 +193,55 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getPostLikes(): Collection
+    /**
+     * @return Collection<int, Comment>
+     */
+    public function getCommentsLikes(): Collection
     {
-        return $this->postLikes;
+        return $this->commentsLikes;
     }
 
-    public function addPostLike(PostLike $like): self
+    public function addCommentsLike(Comment $commentsLike): self
     {
-        if (!$this->postLikes->contains($like)) {
-            $this->postLikes[] = $like;
-            $like->setUser($this);
+        if (!$this->commentsLikes->contains($commentsLike)) {
+            $this->commentsLikes[] = $commentsLike;
+            $commentsLike->addLike($this);
         }
 
         return $this;
     }
 
-    public function removePostLike(PostLike $like): self
+    public function removeCommentsLike(Comment $commentsLike): self
     {
-        if ($this->postLikes->removeElement($like)) {
-            if ($like->getUser() === $this) {
-                $like->setUser(null);
-            }
+        if ($this->commentsLikes->removeElement($commentsLike)) {
+            $commentsLike->removeLike($this);
         }
 
         return $this;
     }
 
-    public function getCommentLikes(): Collection
+    /**
+     * @return Collection<int, Post>
+     */
+    public function getPostsLikes(): Collection
     {
-        return $this->commentLikes;
+        return $this->postsLikes;
     }
 
-    public function addCommentLike(CommentLike $commentLike): self
+    public function addPostsLike(Post $postsLike): self
     {
-        if (!$this->commentLikes->contains($commentLike)) {
-            $this->commentLikes[] = $commentLike;
-            $commentLike->setUser($this);
+        if (!$this->postsLikes->contains($postsLike)) {
+            $this->postsLikes[] = $postsLike;
+            $postsLike->addLike($this);
         }
 
         return $this;
     }
 
-    public function removeCommentLike(CommentLike $commentLike): self
+    public function removePostsLike(Post $postsLike): self
     {
-        if ($this->commentLikes->removeElement($commentLike)) {
-            if ($commentLike->getUser() === $this) {
-                $commentLike->setUser(null);
-            }
+        if ($this->postsLikes->removeElement($postsLike)) {
+            $postsLike->removeLike($this);
         }
 
         return $this;

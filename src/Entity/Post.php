@@ -36,10 +36,10 @@ class Post
     private DateTimeInterface $updatedAt;
 
     #[ORM\OneToMany(mappedBy: 'post', targetEntity: Comment::class)]
-    private $comments;
+    private Collection $comments;
 
-    #[ORM\OneToMany(mappedBy: 'post', targetEntity: PostLike::class)]
-    private $likes;
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'postsLikes')]
+    private Collection $likes;
 
 
     public function __construct()
@@ -154,29 +154,26 @@ class Post
         return $this;
     }
 
-
+    /**
+     * @return Collection<int, User>
+     */
     public function getLikes(): Collection
     {
         return $this->likes;
     }
 
-    public function addLike(PostLike $like): self
+    public function addLike(User $like): self
     {
         if (!$this->likes->contains($like)) {
             $this->likes[] = $like;
-            $like->setPost($this);
         }
 
         return $this;
     }
 
-    public function removeLike(PostLike $like): self
+    public function removeLike(User $like): self
     {
-        if ($this->likes->removeElement($like)) {
-            if ($like->getPost() === $this) {
-                $like->setPost(null);
-            }
-        }
+        $this->likes->removeElement($like);
 
         return $this;
     }

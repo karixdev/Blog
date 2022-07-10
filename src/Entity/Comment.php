@@ -33,7 +33,7 @@ class Comment
     #[ORM\JoinColumn(nullable: false)]
     private Post $post;
 
-    #[ORM\OneToMany(mappedBy: 'comment', targetEntity: CommentLike::class)]
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'commentsLikes')]
     private $likes;
 
     public function __construct()
@@ -107,31 +107,25 @@ class Comment
     }
 
     /**
-     * @return Collection<int, CommentLike>
+     * @return Collection<int, User>
      */
     public function getLikes(): Collection
     {
         return $this->likes;
     }
 
-    public function addLike(CommentLike $like): self
+    public function addLike(User $like): self
     {
         if (!$this->likes->contains($like)) {
             $this->likes[] = $like;
-            $like->setComment($this);
         }
 
         return $this;
     }
 
-    public function removeLike(CommentLike $like): self
+    public function removeLike(User $like): self
     {
-        if ($this->likes->removeElement($like)) {
-            // set the owning side to null (unless already changed)
-            if ($like->getComment() === $this) {
-                $like->setComment(null);
-            }
-        }
+        $this->likes->removeElement($like);
 
         return $this;
     }
