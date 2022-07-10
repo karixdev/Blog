@@ -3,9 +3,13 @@
         <img src="{{ asset('uploads/banners/' ~ post.bannerFilename) }}" class="card-img-top">
         <div class="card-body">
             <h5 class="card-title">{{ post.title }}</h5>
-            <p></p>
-            <p class="card-text">Added: {{ post.createdAt | date }}</p>
+            <p class="card-text">
+                Likes: {{ post.likes | length }}
+            </p>
             <a href="{{ path('show_post', {'id': post.id}) }}" class="btn btn-primary">Read more</a>
+        </div>
+        <div class="card-footer">
+            Added: {{ post.createdAt | date('d.m.Y') }}
         </div>
     </div>
 </div>
