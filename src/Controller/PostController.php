@@ -30,19 +30,9 @@ class PostController extends AbstractController
             'postId' => $post->getId(),
         ]);
 
-        $hasLiked = false;
-        if ($this->getUser()) {
-            try {
-                $hasLiked = $postLikeRepository->findByPostAndUser($post, $this->getUser()) !== null;
-            } catch (NonUniqueResultException $e) {
-                // TODO: handle this exception
-            }
-        }
-
         return $this->render('post/show.html.twig', [
             'post' => $post,
             'commentForm' => $commentForm->createView(),
-            'hasLiked' => $hasLiked,
         ]);
     }
 
