@@ -20,7 +20,7 @@
             {% for post in posts %}
                 <tr>
                     <th scope="row">{{ post.id }}</th>
-                    <td>{{ post.title }}</td>
+                    <td><a href="{{ path('show_post', {'id': post.id}) }}">{{ post.title }}</a></td>
                     <td>{{ post.createdAt | date }}</td>
                     <td>{{ post.updatedAt | date }}</td>
                     <td>
