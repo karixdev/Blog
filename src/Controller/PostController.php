@@ -23,7 +23,7 @@ use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 class PostController extends AbstractController
 {
     #[Route('/post/{id}', name: 'show_post', methods: ['GET'])]
-    public function show(Post $post, UrlGeneratorInterface $generator, PostLikeRepository $postLikeRepository): Response
+    public function show(Post $post, UrlGeneratorInterface $generator): Response
     {
         $commentForm = $this->createForm(CommentFormType::class, new Comment(), [
             'action' => $generator->generate('new_comment'),
