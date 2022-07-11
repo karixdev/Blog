@@ -1,5 +1,7 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}Blog | {{ post.title | slice(0, 10) ~ '...' }}{% endblock %}
+
 {% block container %}
     <div class="post">
         <img src="{{ asset('uploads/banners/' ~ post.bannerFilename) }}" alt="" class="post-banner">
@@ -11,6 +13,7 @@
             </div>
         </div>
         <div class="likes">
+            <b>Likes: {{ post.likes | length }}</b>
             {% if app.user %}
                 <form action="{{ path('like_post', {'id': post.id}) }}" method="post">
                     <input type="hidden" name="like_post_token" value="{{ csrf_token('post-like') }}">
@@ -21,7 +24,6 @@
                     {% endif %}
                 </form>
             {% endif %}
-            <p>Likes: {{ post.likes | length }}</p>
         </div>
         <div class="post-content">
             <p>{{ post.content }}</p>
@@ -49,7 +51,20 @@
                         <div class="card single-comment">
                             <div class="card-body">
                                 <h5 class="card-title">{{ comment.author.username | capitalize }}</h5>
-                                <p class="card-text">{{ comment.content }}</p>
+                                <p class="card-text">
+                                    <b>Likes: {{ comment.likes | length }} <br/></b>
+                                    {{ comment.content }}
+                                </p>
+                                {% if is_granted('ROLE_USER') %}
+                                    <form action="{{ path('like_comment', {'id': comment.id}) }}" method="post">
+                                        <input type="hidden" class="form-control" name="like_comment_token" value="{{ csrf_token('comment-like') }}">
+                                        {% if comment.likes.contains(app.user) %}
+                                            <button class="btn btn-sm btn-primary comment-liked-btn" type="submit">Liked</button>
+                                        {% else %}
+                                            <button class="btn btn-sm btn-outline-primary comment-like-btn" type="submit">Like</button>
+                                        {% endif %}
+                                    </form>
+                                {% endif %}
                                 {% if is_granted('COMMENT_DELETE', comment) %}
                                     <form action="{{ path('comment_delete', {'id': comment.id}) }}" method="post">
                                         <input type="hidden" class="form-control" name="token" value="{{ csrf_token('delete-comment') }}">

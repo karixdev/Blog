@@ -99,6 +99,10 @@
     margin: 8px 0 0 0;
 }
 
+.likes {
+    margin-bottom: 16px;
+}
+
 /* Search page */
 .searchbar-container {
     width: 50%;
@@ -132,4 +136,8 @@
 
 .single-comment {
     margin-top: 16px;
+}
+
+.comment-like-btn, .comment-liked-btn {
+    margin-bottom: 8px;
 }
