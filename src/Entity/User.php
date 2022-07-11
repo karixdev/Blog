@@ -38,18 +38,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'author', targetEntity: Comment::class)]
     private Collection $comments;
 
+    #[ORM\ManyToMany(targetEntity: Post::class, mappedBy: 'likes')]
+    private Collection $postsLikes;
+
     #[ORM\ManyToMany(targetEntity: Comment::class, mappedBy: 'likes')]
     private Collection $commentsLikes;
-
-    #[ORM\ManyToMany(targetEntity: Post::class, mappedBy: 'likes')]
-    private $postsLikes;
 
     public function __construct()
     {
         $this->posts = new ArrayCollection();
         $this->comments = new ArrayCollection();
-        $this->commentsLikes = new ArrayCollection();
         $this->postsLikes = new ArrayCollection();
+        $this->commentsLikes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -194,33 +194,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, Comment>
-     */
-    public function getCommentsLikes(): Collection
-    {
-        return $this->commentsLikes;
-    }
-
-    public function addCommentsLike(Comment $commentsLike): self
-    {
-        if (!$this->commentsLikes->contains($commentsLike)) {
-            $this->commentsLikes[] = $commentsLike;
-            $commentsLike->addLike($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCommentsLike(Comment $commentsLike): self
-    {
-        if ($this->commentsLikes->removeElement($commentsLike)) {
-            $commentsLike->removeLike($this);
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection<int, Post>
      */
     public function getPostsLikes(): Collection
@@ -242,6 +215,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->postsLikes->removeElement($postsLike)) {
             $postsLike->removeLike($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Comment>
+     */
+    public function getCommentsLikes(): Collection
+    {
+        return $this->commentsLikes;
+    }
+
+    public function addCommentsLike(Comment $commentsLike): self
+    {
+        if (!$this->commentsLikes->contains($commentsLike)) {
+            $this->commentsLikes[] = $commentsLike;
+            $commentsLike->addLike($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommentsLike(Comment $commentsLike): self
+    {
+        if ($this->commentsLikes->removeElement($commentsLike)) {
+            $commentsLike->removeLike($this);
         }
 
         return $this;

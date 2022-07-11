@@ -37,6 +37,12 @@ class PostFixtures extends Fixture implements DependentFixtureInterface
                 ->setUpdatedAt(new DateTime())
             ;
 
+            for ($j = 0; $j < UserFixtures::NUMBER_OF_NORMAL_USERS; $j++) {
+                if (rand(0, 1) === 0) {
+                    $post->addLike($this->getReference(UserFixtures::NORMAL_USER_REFERENCE_PREFIX . $j));
+                }
+            }
+
             $this->addReference(self::POST_REFERENCE_PREFIX . $i, $post);
             $manager->persist($post);
         }
