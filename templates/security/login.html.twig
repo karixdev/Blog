@@ -7,7 +7,7 @@
 
         {% if error %}
             <div class="alert alert-danger" role="alert">
-                {{ error.messageKey|trans(error.messageData, 'security') }}
+                {{ error.messageKey | trans(error.messageData, 'security') }}
             </div>
         {% endif %}
 
@@ -19,6 +19,10 @@
             <div class="mb-3">
                 <label for="password">Password</label>
                 <input type="password" id="password" name="password" class="form-control" autocomplete="current-password" required>
+            </div>
+            <div class="mb-3">
+                <label for="remember-me">Remember me</label>
+                <input type="checkbox" class="form-check-input" id="remember-me" name="_remember_me">
             </div>
 
             <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
