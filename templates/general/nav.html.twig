@@ -13,7 +13,7 @@
                     <a href="{{ path('app_search') }}" class="nav-link">Search</a>
                 </li>
                 
-                {% if not is_granted('IS_AUTHENTICATED_FULLY') %}
+                {% if not app.user %}
                     <li class="nav-item">
                         <a href="{{ path('app_register') }}" class="nav-link">Register</a>
                     </li>
@@ -28,7 +28,7 @@
                     </li>
                 {% endif %}
                 
-                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                {% if app.user %}
                     <li class="nav-item">
                         <a href="{{ path('app_logout') }}" class="nav-link">Logout</a>
                     </li>
