@@ -49,8 +49,6 @@ class PostController extends AbstractController
                 $post
                     ->setBannerFilename($bannerFilename)
                     ->setAuthor($this->getUser())
-                    ->setCreatedAt(new DateTime())
-                    ->setUpdatedAt(new DateTime())
                 ;
 
                 $registry->getManager()->persist($post);
@@ -90,8 +88,6 @@ class PostController extends AbstractController
 
         $postForm->handleRequest($request);
         if ($postForm->isSubmitted() && $postForm->isValid()) {
-            $post->setUpdatedAt(new DateTime());
-
             if ($banner = $postForm->get('banner')->getData()) {
                 $post->setBannerFilename(
                     $fileManager->replace($banner, $post)

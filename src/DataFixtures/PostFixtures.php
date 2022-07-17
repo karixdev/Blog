@@ -33,8 +33,6 @@ class PostFixtures extends Fixture implements DependentFixtureInterface
                 ->setContent($this->generator->realText(1000))
                 ->setAuthor($this->getReference(UserFixtures::ADMIN_USER_REFERENCE))
                 ->setBannerFilename(self::BANNER_TEMPLATE_FILENAME)
-                ->setCreatedAt(new DateTime())
-                ->setUpdatedAt(new DateTime())
             ;
 
             for ($j = 0; $j < UserFixtures::NUMBER_OF_NORMAL_USERS; $j++) {

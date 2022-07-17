@@ -30,8 +30,6 @@ class CommentController extends AbstractController
                     $postRepository->find($commentForm->get('post')->getData())
                 )
                 ->setAuthor($this->getUser())
-                ->setCreatedAt(new DateTime())
-                ->setUpdatedAt(new DateTime())
             ;
             $commentRepository->add($comment, true);
 

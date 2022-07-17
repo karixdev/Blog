@@ -29,8 +29,6 @@ class CommentFixtures extends Fixture implements DependentFixtureInterface
                     ->setContent($this->generator->realText(300))
                     ->setAuthor($this->getReference(UserFixtures::NORMAL_USER_REFERENCE_PREFIX . $j))
                     ->setPost($this->getReference(PostFixtures::POST_REFERENCE_PREFIX . $i))
-                    ->setCreatedAt(new DateTime())
-                    ->setUpdatedAt(new DateTime())
                 ;
 
                 $manager->persist($comment);
