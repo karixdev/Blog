@@ -2,20 +2,17 @@
 
 namespace App\EventListener;
 
-use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Http\RememberMe\RememberMeHandlerInterface;
 
 class ResponseListener
 {
-    private LoggerInterface $logger;
     private Security $security;
     private RememberMeHandlerInterface $rememberMeHandler;
 
-    public function __construct(LoggerInterface $logger, Security $security, RememberMeHandlerInterface $rememberMeHandler)
+    public function __construct(Security $security, RememberMeHandlerInterface $rememberMeHandler)
     {
-        $this->logger = $logger;
         $this->security = $security;
         $this->rememberMeHandler = $rememberMeHandler;
     }
