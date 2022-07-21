@@ -55,6 +55,11 @@
         margin-left: 0;
         margin-top: 4px;
     }
+
+    .post .edit-btn {
+        margin-left: 8px;
+        margin-top: 0;
+    }
 }
 
 /* Post */
@@ -96,7 +101,7 @@
 }
 
 .post .edit-btn {
-    margin: 8px 0 0 0;
+    margin-left: 8px;
 }
 
 .likes {

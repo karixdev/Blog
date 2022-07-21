@@ -1,0 +1,5 @@
+<form action="{{ path('post_delete', {'id': post.id}) }}" method="post" class="float-start">
+    <input type="hidden" class="form-control" value="{{ csrf_token('post-delete') }}" name="token">
+    <input type="hidden" class="form-control" value="{{ redirect_after_failure_url }}" name="redirect_after_failure">
+    <button class="btn btn-danger" type="submit">Delete</button>
+</form>

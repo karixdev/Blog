@@ -35,10 +35,7 @@
                         There was an error while removing banner! Try again later.
                     </div>
                 {% endif %}
-                <form action="{{ path('post_delete', {'id': post.id}) }}" method="post">
-                    <input type="hidden" class="form-control" value="{{ csrf_token('post-delete') }}" name="token">
-                    <button class="btn btn-danger" type="submit">Delete</button>
-                </form>
+                {% include 'post/delete_form.html.twig' with {'redirect_after_failure_url': path('show_post', {'id': post.id})} %}
                 <a href="{{ path('post_edit', {'id': post.id}) }}" class="btn btn-warning edit-btn">Edit</a>
             {% endif %}
         </div>
