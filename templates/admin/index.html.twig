@@ -6,6 +6,12 @@
     <h1>Welcome {{ app.user.username }} to admin dashboard</h1>
     <a href="{{ path('new_post') }}">Add new post!</a>
 
+    {% if app.request.query.get('deletionError') %}
+        <div class="alert alert-danger" role="alert">
+            There was an error while removing banner! Try again later.
+        </div>
+    {% endif %}
+
     <table class="table table-striped table-hover">
         <thead>
             <tr>

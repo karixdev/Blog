@@ -76,8 +76,13 @@ class PostController extends AbstractController
             throw new InvalidCsrfTokenException();
         }
 
-        $fileManager->remove($post);
-        $postRepository->remove($post, true);
+        if ($fileManager->remove($post)) {
+            $postRepository->remove($post, true);
+        } else {
+            return $this->redirect(
+                $request->request->get('redirect_after_failure') ? $request->request->get('redirect_after_failure') . '?deletionError=true' : $this->generateUrl('admin_dashboard', ['deletionError' => true]),
+            );
+        }
 
         return $this->redirectToRoute('admin_dashboard');
     }

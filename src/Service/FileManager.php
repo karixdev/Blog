@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Entity\Post;
 use App\Kernel;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -49,15 +50,18 @@ class FileManager
         return $newFilename;
     }
 
-    public function remove(Post $post): void
+    public function remove(Post $post): bool
     {
         if (!($this->kernel->isDebug() && $post->getBannerFilename() === 'banner_template.jpg')) {
             try {
                 $this->filesystem->remove($this->targetDirectory . '/' .$post->getBannerFilename());
-            } catch (\Exception $exception) {
-                // TODO: handle this exception
+            } catch (IOException $e) {
+                $this->logger->error('Error while deleting banner: ' . $e->getMessage());
+                return false;
             }
         }
+
+        return true;
     }
 
     public function replace(UploadedFile $file, Post $post): string
