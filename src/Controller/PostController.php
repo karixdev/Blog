@@ -55,6 +55,11 @@ class PostController extends AbstractController
                 $registry->getManager()->flush();
 
                 return $this->redirectToRoute('admin_dashboard');
+            } else {
+                return $this->render('post/new.html.twig', [
+                    'postForm' => $postForm->createView(),
+                    'bannerError' => true,
+                ]);
             }
         }
 

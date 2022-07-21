@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\Post;
 use App\Kernel;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -15,16 +16,24 @@ class FileManager
     private SluggerInterface $slugger;
     private Filesystem $filesystem;
     private Kernel $kernel;
+    private LoggerInterface $logger;
 
-    public function __construct(string $targetDirectory, SluggerInterface $slugger, Filesystem $filesystem, Kernel $kernel)
+    public function __construct(
+        string $targetDirectory,
+        SluggerInterface $slugger,
+        Filesystem $filesystem,
+        Kernel $kernel,
+        LoggerInterface $logger
+    )
     {
         $this->targetDirectory = $targetDirectory;
         $this->slugger = $slugger;
         $this->filesystem = $filesystem;
         $this->kernel = $kernel;
+        $this->logger = $logger;
     }
 
-    public function upload(UploadedFile $file): string
+    public function upload(UploadedFile $file): ?string
     {
         $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
         $safeFilename = $this->slugger->slug($originalFilename);
@@ -33,7 +42,8 @@ class FileManager
         try {
             $file->move($this->getTargetDirectory(), $newFilename);
         } catch (FileException $e) {
-            // TODO: handle this exception
+            $this->logger->error('Error while uploading banner: ' . $e->getMessage());
+            return null;
         }
 
         return $newFilename;

@@ -5,6 +5,11 @@
 {% block container %}
     <div class="post-form-container">
         <h1>Add new post:</h1>
+        {% if bannerError is defined %}
+            <div class="alert alert-danger" role="alert">
+                There was an error uploading banner! Try again later.
+            </div>
+        {% endif %}
         {{ form(postForm) }}
     </div>
 {% endblock %}
