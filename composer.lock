@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "49cf836fdde6860ee9437433cdd35c08",
+    "content-hash": "912766a2a372623b202fc71c201a8a4c",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1457,6 +1457,129 @@
                 }
             ],
             "time": "2022-05-05T09:31:05+00:00"
+        },
+        {
+            "name": "gregwar/captcha",
+            "version": "v1.1.9",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Gregwar/Captcha.git",
+                "reference": "4bb668e6b40e3205a020ca5ee4ca8cff8b8780c5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Gregwar/Captcha/zipball/4bb668e6b40e3205a020ca5ee4ca8cff8b8780c5",
+                "reference": "4bb668e6b40e3205a020ca5ee4ca8cff8b8780c5",
+                "shasum": ""
+            },
+            "require": {
+                "ext-gd": "*",
+                "ext-mbstring": "*",
+                "php": ">=5.3.0",
+                "symfony/finder": "*"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^6.4"
+            },
+            "type": "captcha",
+            "autoload": {
+                "psr-4": {
+                    "Gregwar\\": "src/Gregwar"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Grégoire Passault",
+                    "email": "g.passault@gmail.com",
+                    "homepage": "http://www.gregwar.com/"
+                },
+                {
+                    "name": "Jeremy Livingston",
+                    "email": "jeremy.j.livingston@gmail.com"
+                }
+            ],
+            "description": "Captcha generator",
+            "homepage": "https://github.com/Gregwar/Captcha",
+            "keywords": [
+                "bot",
+                "captcha",
+                "spam"
+            ],
+            "support": {
+                "issues": "https://github.com/Gregwar/Captcha/issues",
+                "source": "https://github.com/Gregwar/Captcha/tree/master"
+            },
+            "time": "2020-03-24T14:39:05+00:00"
+        },
+        {
+            "name": "gregwar/captcha-bundle",
+            "version": "v2.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Gregwar/CaptchaBundle.git",
+                "reference": "2b55ba41fd890f1a94d30e53a530c344bf12d6a5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Gregwar/CaptchaBundle/zipball/2b55ba41fd890f1a94d30e53a530c344bf12d6a5",
+                "reference": "2b55ba41fd890f1a94d30e53a530c344bf12d6a5",
+                "shasum": ""
+            },
+            "require": {
+                "ext-gd": "*",
+                "gregwar/captcha": "^1.1.9",
+                "php": ">=7.1.3",
+                "symfony/form": "~5.0|~6.0",
+                "symfony/framework-bundle": "~5.0|~6.0",
+                "symfony/translation": "~5.0|^6.0",
+                "twig/twig": "^2.10|^3.0"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^0.12.66",
+                "symplify/easy-coding-standard": "^6.1"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "Gregwar\\CaptchaBundle\\": "/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Grégoire Passault",
+                    "email": "g.passault@gmail.com",
+                    "homepage": "http://www.gregwar.com/"
+                },
+                {
+                    "name": "Jeremy Livingston",
+                    "email": "jeremy.j.livingston@gmail.com"
+                }
+            ],
+            "description": "Captcha bundle",
+            "homepage": "https://github.com/Gregwar/CaptchaBundle",
+            "keywords": [
+                "Symfony2",
+                "bot",
+                "captcha",
+                "code",
+                "security",
+                "spam",
+                "symfony",
+                "visual"
+            ],
+            "support": {
+                "issues": "https://github.com/Gregwar/CaptchaBundle/issues",
+                "source": "https://github.com/Gregwar/CaptchaBundle/tree/v2.2.0"
+            },
+            "time": "2022-01-11T08:28:06+00:00"
         },
         {
             "name": "laminas/laminas-code",
@@ -5309,6 +5432,102 @@
                 }
             ],
             "time": "2022-06-26T16:35:04+00:00"
+        },
+        {
+            "name": "symfony/translation",
+            "version": "v6.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/translation.git",
+                "reference": "b254416631615bc6fe49b0a67f18658827288147"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/translation/zipball/b254416631615bc6fe49b0a67f18658827288147",
+                "reference": "b254416631615bc6fe49b0a67f18658827288147",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.1",
+                "symfony/polyfill-mbstring": "~1.0",
+                "symfony/translation-contracts": "^2.3|^3.0"
+            },
+            "conflict": {
+                "symfony/config": "<5.4",
+                "symfony/console": "<5.4",
+                "symfony/dependency-injection": "<5.4",
+                "symfony/http-kernel": "<5.4",
+                "symfony/twig-bundle": "<5.4",
+                "symfony/yaml": "<5.4"
+            },
+            "provide": {
+                "symfony/translation-implementation": "2.3|3.0"
+            },
+            "require-dev": {
+                "psr/log": "^1|^2|^3",
+                "symfony/config": "^5.4|^6.0",
+                "symfony/console": "^5.4|^6.0",
+                "symfony/dependency-injection": "^5.4|^6.0",
+                "symfony/finder": "^5.4|^6.0",
+                "symfony/http-client-contracts": "^1.1|^2.0|^3.0",
+                "symfony/http-kernel": "^5.4|^6.0",
+                "symfony/intl": "^5.4|^6.0",
+                "symfony/polyfill-intl-icu": "^1.21",
+                "symfony/routing": "^5.4|^6.0",
+                "symfony/service-contracts": "^1.1.2|^2|^3",
+                "symfony/yaml": "^5.4|^6.0"
+            },
+            "suggest": {
+                "psr/log-implementation": "To use logging capability in translator",
+                "symfony/config": "",
+                "symfony/yaml": ""
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "Resources/functions.php"
+                ],
+                "psr-4": {
+                    "Symfony\\Component\\Translation\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Provides tools to internationalize your application",
+            "homepage": "https://symfony.com",
+            "support": {
+                "source": "https://github.com/symfony/translation/tree/v6.1.0"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2022-05-11T12:12:29+00:00"
         },
         {
             "name": "symfony/translation-contracts",

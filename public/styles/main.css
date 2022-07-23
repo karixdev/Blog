@@ -156,3 +156,9 @@
 .comment-like-btn, .comment-liked-btn {
     margin-bottom: 8px;
 }
+
+/* Captcha */
+.captcha_image {
+    display: block;
+    margin-bottom: 8px;
+}

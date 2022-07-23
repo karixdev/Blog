@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\User;
+use Gregwar\CaptchaBundle\Type\CaptchaType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -34,6 +35,7 @@ class RegistrationFormType extends AbstractType
                 ],
                 'label' => 'Password',
             ])
+            ->add('captcha', CaptchaType::class)
             ->add('register',  SubmitType::class, [
                 'attr' => [
                     'class' => 'btn btn-primary float-end'
