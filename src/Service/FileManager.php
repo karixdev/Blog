@@ -13,25 +13,15 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 
 class FileManager
 {
-    private string $targetDirectory;
-    private SluggerInterface $slugger;
-    private Filesystem $filesystem;
-    private Kernel $kernel;
-    private LoggerInterface $logger;
 
     public function __construct(
-        string $targetDirectory,
-        SluggerInterface $slugger,
-        Filesystem $filesystem,
-        Kernel $kernel,
-        LoggerInterface $logger
+        private readonly string $targetDirectory,
+        private readonly SluggerInterface $slugger,
+        private readonly Filesystem $filesystem,
+        private readonly Kernel $kernel,
+        private readonly LoggerInterface $logger
     )
     {
-        $this->targetDirectory = $targetDirectory;
-        $this->slugger = $slugger;
-        $this->filesystem = $filesystem;
-        $this->kernel = $kernel;
-        $this->logger = $logger;
     }
 
     public function upload(UploadedFile $file): ?string

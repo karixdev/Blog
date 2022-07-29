@@ -11,12 +11,12 @@ use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 
 class LikeManager
 {
-    private EntityManagerInterface $entityManager;
-
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(
+        private readonly EntityManagerInterface $entityManager
+    )
     {
-        $this->entityManager = $entityManager;
     }
+
 
     public function action(object $object, User $user): void
     {

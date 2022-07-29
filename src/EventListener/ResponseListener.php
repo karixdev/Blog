@@ -8,13 +8,11 @@ use Symfony\Component\Security\Http\RememberMe\RememberMeHandlerInterface;
 
 class ResponseListener
 {
-    private Security $security;
-    private RememberMeHandlerInterface $rememberMeHandler;
-
-    public function __construct(Security $security, RememberMeHandlerInterface $rememberMeHandler)
+    public function __construct(
+        private readonly Security $security,
+        private readonly RememberMeHandlerInterface $rememberMeHandler
+    )
     {
-        $this->security = $security;
-        $this->rememberMeHandler = $rememberMeHandler;
     }
 
 

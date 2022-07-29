@@ -14,12 +14,12 @@ class UserFixtures extends Fixture
 
     public const NUMBER_OF_NORMAL_USERS = 5;
 
-    private UserPasswordHasherInterface $userPasswordHasher;
-
-    public function __construct(UserPasswordHasherInterface $userPasswordHasher)
+    public function __construct(
+        private readonly UserPasswordHasherInterface $userPasswordHasher
+    )
     {
-        $this->userPasswordHasher = $userPasswordHasher;
     }
+
 
     public function load(ObjectManager $manager): void
     {
