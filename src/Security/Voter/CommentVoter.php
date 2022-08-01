@@ -45,12 +45,12 @@ class CommentVoter extends Voter
     public function canEdit(Comment $comment, User $user): bool
     {
         return $this->security->isGranted('ROLE_USER', $user)
-                && $comment->getAuthor() === $user;
+                && $comment->getAuthor()->getId() === $user->getId();
     }
 
     private function canDelete(Comment $comment, User $user): bool
     {
-        return ($this->security->isGranted('ROLE_USER', $user) && $comment->getAuthor() === $user)
+        return ($this->security->isGranted('ROLE_USER', $user) && $comment->getAuthor()->getId() === $user->getId())
                 || $this->security->isGranted('ROLE_ADMIN', $user);
     }
 }
